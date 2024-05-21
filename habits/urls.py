@@ -5,7 +5,7 @@ from habits.views import (
     HabitRetrieveAPIView,
     HabitCreateAPIView,
     HabitUpdateAPIView,
-    HabitDestroyAPIView,
+    HabitDestroyAPIView, PublicHabitListAPIView,
 )
 
 app_name = HabitsConfig.name
@@ -21,4 +21,5 @@ urlpatterns = [
         HabitDestroyAPIView.as_view(),
         name="habits-delete",
     ),
+    path("public/", PublicHabitListAPIView.as_view(), name="public-habits-list"),
 ]
