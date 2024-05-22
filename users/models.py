@@ -22,6 +22,9 @@ class User(AbstractUser):
         help_text="Укажите ник телеграма",
         **NULLABLE
     )
+    tg_id = models.CharField(
+        max_length=50, verbose_name="Телеграм id", help_text="Укажите телеграм id", **NULLABLE
+    )
     avatar = models.ImageField(
         upload_to="users/avatars",
         verbose_name="Аватар",

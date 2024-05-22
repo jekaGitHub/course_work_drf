@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "users",
     "habits",
     "rest_framework",
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -159,6 +161,8 @@ AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+TELEGRAM_API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
+
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = TIME_ZONE
 
@@ -175,3 +179,16 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")  # Например, Redis, �
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULE = {
+    "send_notification_about_habit": {
+        "task": "habits.tasks.send_notification_about_habit",
+        "schedule": timedelta(minutes=1),
+    },
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://127.0.0.1:8000",
+]
