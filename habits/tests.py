@@ -1,6 +1,3 @@
-from django.test import TestCase
-
-# Create your tests here.
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
@@ -15,7 +12,10 @@ class HabitTestCase(APITestCase):
         self.user = User.objects.create(email="test@test.ru", password="1234")
         self.client.force_authenticate(user=self.user)
         self.habit = Habit.objects.create(
-            place="Какое-либо место", time_action="18:05:00", action="Какое-либо действие", owner=self.user
+            place="Какое-либо место",
+            time_action="18:05:00",
+            action="Какое-либо действие",
+            owner=self.user,
         )
 
     def test_habit_list(self):
@@ -44,13 +44,9 @@ class HabitTestCase(APITestCase):
                 }
             ],
         }
-        self.assertEqual(
-            response.status_code, status.HTTP_200_OK
-        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        self.assertEqual(
-            data, result
-        )
+        self.assertEqual(data, result)
 
     def test_habit_retrieve(self):
         """Тестирование вывода одной привычки."""
@@ -58,13 +54,9 @@ class HabitTestCase(APITestCase):
         response = self.client.get(url)
         data = response.json()
 
-        self.assertEqual(
-            response.status_code, status.HTTP_200_OK
-        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        self.assertEqual(
-            data.get("action"), self.habit.action
-        )
+        self.assertEqual(data.get("action"), self.habit.action)
 
     def test_habit_create(self):
         """Тестирование создания привычки."""
@@ -79,26 +71,17 @@ class HabitTestCase(APITestCase):
 
         response = self.client.post(url, data)
 
-        self.assertEqual(
-            response.status_code, status.HTTP_201_CREATED
-        )
-        self.assertEqual(
-            Habit.objects.all().count(), 2
-        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Habit.objects.all().count(), 2)
 
     def test_habit_update(self):
         """Тестирование обновления привычки."""
         url = reverse("habits:habits-update", args=(self.habit.pk,))
-        data = {
-            "place": "Обновлённое",
-            "action": "Действие обновлено"
-        }
+        data = {"place": "Обновлённое", "action": "Действие обновлено"}
         response = self.client.patch(url, data)
         data = response.json()
 
-        self.assertEqual(
-            response.status_code, status.HTTP_200_OK
-        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(
             data,
@@ -114,7 +97,7 @@ class HabitTestCase(APITestCase):
                 "remuneration": self.habit.remuneration,
                 "lead_time": self.habit.lead_time,
                 "is_published": self.habit.is_published,
-            }
+            },
         )
 
     def test_habit_delete(self):
@@ -122,13 +105,9 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:habits-delete", args=(self.habit.pk,))
         response = self.client.delete(url)
 
-        self.assertEqual(
-            response.status_code, status.HTTP_204_NO_CONTENT
-        )
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        self.assertEqual(
-            Habit.objects.all().count(), 0
-        )
+        self.assertEqual(Habit.objects.all().count(), 0)
 
     def test_habit_lead_time(self):
         """Тестирование время на выполнение привычки."""
@@ -141,9 +120,7 @@ class HabitTestCase(APITestCase):
         }
         response = self.client.post(url, data)
 
-        self.assertEqual(
-            response.status_code, status.HTTP_400_BAD_REQUEST
-        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_habit_frequency(self):
         """Тестирование периодичности привычки."""
@@ -156,6 +133,4 @@ class HabitTestCase(APITestCase):
         }
         response = self.client.post(url, data)
 
-        self.assertEqual(
-            response.status_code, status.HTTP_400_BAD_REQUEST
-        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
