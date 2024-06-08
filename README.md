@@ -65,4 +65,9 @@
     Swagger http://127.0.0.1:8000/swagger/
     Redoc http://127.0.0.1:8000/redoc/
 
+Инструкция для запуска проекта на удалённом сервере с помощью Docker:
+1. Клонировать проект:
+  https://github.com/jekaGitHub/coursework_drf.git
+2. Переименовать файл .env.sample в .env и заполнить его необходимыми переменными
+3. Ввести в терминале команду "docker-compose up -d --build"
 Автор проекта: Евгений Сафонов
