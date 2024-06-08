@@ -70,4 +70,5 @@
   https://github.com/jekaGitHub/coursework_drf.git
 2. Переименовать файл .env.sample в .env и заполнить его необходимыми переменными
 3. Ввести в терминале команду "docker-compose up -d --build"
+
 Автор проекта: Евгений Сафонов
